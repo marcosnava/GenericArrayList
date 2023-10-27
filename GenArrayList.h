@@ -13,28 +13,46 @@ enum {
     EE_NO_ERROR = 0,
     EE_INDEX_OUT_OF_BOUNDS_EXCEPTION,
     EE_ILLEGAL_ARGUMENT_EXCEPTION,
-
+    EE_MEMORY_ALLOCATION_ERROR
 };
 
 typedef int ERROR;
 
 // variables
-extern void **galIvList;
-extern size_t galIvSize;
-extern size_t galIvIncrement;
+extern void **galLvList;
+extern size_t galLvSize;
+extern size_t galLvIncrement;
+extern size_t galLvElements;
 
 // prototypes
 /*
- * Initialize the list with initial size
+ * galInitialize the list with initial size
  * and define the increment when it expands
  */
-ERROR Initialize(size_t size, size_t inc);
+ERROR galInitialize(size_t size, size_t inc);
+
+/*
+ * Utility function to initialize all elements
+ * with NULL
+ */
+void galLvInitializeElements(void **list, size_t size);
+
+/*
+ * Utility function to destroy the ArrayList
+ */
+void galLvDestroy();
+
+/*
+ * Utility function to expand the ArrayList
+ * by the increment
+ */
+ERROR galLvExpand();
 
 /*
  * Appends the specified element to the end
  * of this list.
  */
-BOOLEAN galAdd(void *e);
+ERROR galAdd(void *e);
 
 /*
  * Inserts the specified element at the
@@ -59,13 +77,13 @@ BOOLEAN galContains(void *e);
  * can hold at least the number of elements
  * specified by the minimum capacity argument.
  */
-void galEnsureCapacity(int minCapacity);
+ERROR galEnsureCapacity(int minCapacity);
 
 /*
  * Returns the element at the specified
  * position in this list.
  */
-ERROR galGet(int index, void *e);
+void *galGet(int index, ERROR *error);
 
 /*
  * Returns the index of the first occurrence
@@ -90,14 +108,14 @@ int galLastIndexOf(void *e);
  * Removes the element at the specified
  * position in this list.
  */
-BOOLEAN galRemoveI(int index);
+void galRemoveI(int index);
 
 /*
  * Removes the first occurrence of the
  * specified element from this list, if
  * it is present.
  */
-BOOLEAN galRemoveE(void *);
+void galRemoveE(void *e);
 
 /*
  * Replaces the element at the specified

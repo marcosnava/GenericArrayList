@@ -6,4 +6,5 @@ set(CMAKE_C_STANDARD 11)
 add_executable(GenericArrayList main.c
         GenArrayList.h
         Boolean.h
+        GenArrayList.c
 )
