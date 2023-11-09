@@ -139,7 +139,7 @@ ERROR galInsert(int index, void *e)
 }
 
 /*
- * Removes all of the elements from this list.
+ * Removes all elements from this list.
  */
 void galClear()
 {
@@ -337,6 +337,21 @@ void galSort(BOOLEAN (*sort)(void *, void*))
             }
         }
     }
+}
+
+/*
+ * Find element in list.
+ */
+void *galFind(BOOLEAN (*find)(void *, void*), void *what)
+{
+    for(int i = 0; i < galLvElements; i++)
+    {
+        if(find(galLvList[i], what))
+        {
+            return galLvList[i];
+        }
+    }
+    return NULL;
 }
 
 /*

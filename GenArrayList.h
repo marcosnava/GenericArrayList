@@ -61,7 +61,7 @@ ERROR galAdd(void *e);
 ERROR galInsert(int index, void *e);
 
 /*
- * Removes all of the elements from this list.
+ * Removes all elements from this list.
  */
 void galClear();
 
@@ -134,6 +134,11 @@ size_t galSize();
  * induced by the specified function.
  */
 void galSort(BOOLEAN (*sort)(void *, void*));
+
+/*
+ * Find element in list.
+ */
+void *galFind(BOOLEAN (*find)(void *, void*), void *what);
 
 /*
  * Trims the capacity of this ArrayList
