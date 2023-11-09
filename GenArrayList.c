@@ -52,7 +52,7 @@ void galLvInitializeElements(void **list, size_t size)
 /*
  * Utility function to destroy the ArrayList
  */
-void galLvDestroy()
+void galDestroy()
 {
     for(size_t i = 0; i < galLvSize; i++)
     {
@@ -106,6 +106,7 @@ ERROR galLvExpand()
         temp[i] = galLvList[i];
     }
 
+    free(galLvList);
     galLvList = temp;
     galLvSize += galLvIncrement;
 
@@ -312,4 +313,53 @@ ERROR galSet(int index, void *e)
 size_t galSize()
 {
     return galLvElements;
+}
+
+/*
+ * Sorts this list according to the order
+ * induced by the specified function.
+ */
+void galSort(BOOLEAN (*sort)(void *, void*))
+{
+    if(galLvElements > 1)
+    {
+        void *aux = NULL;
+        for(int i = 0; i < (galLvElements - 1); i++)
+        {
+            for(int j = i + 1; j < galLvElements; j++)
+            {
+                if(sort(galLvList[i], galLvList[j]))
+                {
+                    aux = galLvList[i];
+                    galLvList[i] = galLvList[j];
+                    galLvList[j] = aux;
+                }
+            }
+        }
+    }
+}
+
+/*
+ * Trims the capacity of this ArrayList
+ * instance to be the list's current size.
+ */
+void galTrimToSize()
+{
+    void **temp = NULL;
+
+    temp = malloc((galLvElements) * sizeof(void *));
+    if(temp == NULL)
+    {
+        return;
+    }
+    galLvInitializeElements(temp, (galLvElements));
+
+    for(size_t i = 0; i < galLvElements; i++)
+    {
+        temp[i] = galLvList[i];
+    }
+
+    free(galLvList);
+    galLvList = temp;
+    galLvSize = galLvElements;
 }

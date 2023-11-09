@@ -40,7 +40,7 @@ void galLvInitializeElements(void **list, size_t size);
 /*
  * Utility function to destroy the ArrayList
  */
-void galLvDestroy();
+void galDestroy();
 
 /*
  * Utility function to expand the ArrayList
